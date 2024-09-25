@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from unittest.mock import patch
 from app.main import app
-# from app.models.authentication import RegisterRequest
 
 client = TestClient(app)
 

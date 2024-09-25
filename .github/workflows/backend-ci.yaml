@@ -9,7 +9,7 @@ on:
       - main  # Execute o workflow em pull requests para a branch 'main'
 
 jobs:
-  test:
+  test-register:
     runs-on: ubuntu-latest
 
     services:

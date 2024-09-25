@@ -9,7 +9,7 @@ on:
       - main  # Execute o workflow em pull requests para a branch 'main'
 
 jobs:
-  test:
+  test-login-page:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -29,5 +29,5 @@ jobs:
       - name: Run frontend tests
         working-directory: ./frontend  # Executa testes no diretório frontend
         run: |
-          pytest frontend/tests --maxfail=1 --disable-warnings
+          pytest tests --maxfail=1 --disable-warnings
 
