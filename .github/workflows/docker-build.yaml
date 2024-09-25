@@ -9,7 +9,7 @@ on:
       - main  # Execute o workflow em pull requests para a branch 'main'
 
 jobs:
-  docker:
+  docker-image-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
