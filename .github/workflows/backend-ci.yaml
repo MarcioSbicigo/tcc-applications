@@ -44,5 +44,5 @@ jobs:
         MONGO_URI: mongodb://localhost:27017          # Conexão com o MongoDB
         REDIS_URL: redis://localhost:6379             # Conexão com o Redis
         SECRET_KEY: j4mTHB5JijuOqZLDkhaPInMI672fawdg  # Key para os testes (Não deve ser a mesma usada na aplicação)
-        run: |
+      run: |
         pytest tests --maxfail=1 --disable-warnings
