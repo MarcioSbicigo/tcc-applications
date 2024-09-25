@@ -45,4 +45,4 @@ jobs:
         REDIS_URL: redis://localhost:6379             # Conexão com o Redis
         SECRET_KEY: j4mTHB5JijuOqZLDkhaPInMI672fawdg  # Key para os testes (Não deve ser a mesma usada na aplicação)
         run: |
-        pytest backend/tests --maxfail=1 --disable-warnings
+        pytest tests --maxfail=1 --disable-warnings
