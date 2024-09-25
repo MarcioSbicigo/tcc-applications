@@ -1,5 +1,3 @@
-name: CI - Build and Push Docker Images
-
 on:
   push:
     branches:
@@ -9,7 +7,7 @@ on:
       - main  # Execute o workflow em pull requests para a branch 'main'
 
 jobs:
-  docker-images-build:
+  docker-image-build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -27,26 +25,20 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Get short commit SHA
+      - name: Get short commit SHA    # Variável de tageamento automático baseado no SHA do commit.
         id: vars
         run: echo "COMMIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-  docker-images-push:
-    runs-on: ubuntu-latest
-    needs: docker-images-build  # Espera o job anterior terminar
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set environment variable for COMMIT_SHA   # Variável de tageamento automático baseado no SHA do commit.
-        run: echo "COMMIT_SHA=${{ env.COMMIT_SHA }}" >> $GITHUB_ENV
-
-      - name: Push Frontend Image
+      - name: Build and push frontend image   # Build frontend
         run: |
+          docker build -t marciosbicigo/tcc-frontend:${{ env.COMMIT_SHA }} -f ./frontend/Dockerfile ./frontend
           docker push marciosbicigo/tcc-frontend:${{ env.COMMIT_SHA }}
+          docker tag marciosbicigo/tcc-frontend:${{ env.COMMIT_SHA }} marciosbicigo/tcc-frontend:latest
           docker push marciosbicigo/tcc-frontend:latest
 
-      - name: Push Backend API Image
+      - name: Build and push backend-api image   # Build backend
         run: |
+          docker build -t marciosbicigo/tcc-backend-api:${{ env.COMMIT_SHA }} -f ./backend/Dockerfile ./backend
           docker push marciosbicigo/tcc-backend-api:${{ env.COMMIT_SHA }}
+          docker tag marciosbicigo/tcc-backend-api:${{ env.COMMIT_SHA }} marciosbicigo/tcc-backend-api:latest
           docker push marciosbicigo/tcc-backend-api:latest
