@@ -9,25 +9,25 @@ on:
       - main  # Execute o workflow em pull requests para a branch 'main'
 
 jobs:
-  test-login-page:
+  test-frontend:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
+    - name: Check out repository
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
 
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install frontend dependencies
+      working-directory: ./frontend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Run frontend tests
-        working-directory: ./frontend  # Executa testes no diretório frontend
-        run: |
-          pytest tests --maxfail=1 --disable-warnings
-
+    - name: Run frontend tests
+      working-directory: ./frontend/app
+      run: |
+        pytest tests --maxfail=1 --disable-warnings
