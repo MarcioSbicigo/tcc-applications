@@ -1,0 +1,48 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - main  # Execute o workflow em pushes na branch 'main'
+  pull_request:
+    branches:
+      - main  # Execute o workflow em pull requests para a branch 'main'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+        options: --health-cmd "mongo --eval 'db.runCommand(\"ping\").ok'" --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      working-directory: ./backend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Instala as dependências do projeto
+
+    - name: Run tests
+      working-directory: ./backend
+      env:
+        MONGO_URI: mongodb://localhost:27017          # Conexão com o MongoDB
+        REDIS_URL: redis://localhost:6379             # Conexão com o Redis
+        SECRET_KEY: j4mTHB5JijuOqZLDkhaPInMI672fawdg  # Key para os testes (Não deve ser a mesma usada na aplicação)
+        run: |
+        pytest backend/tests --maxfail=1 --disable-warnings
