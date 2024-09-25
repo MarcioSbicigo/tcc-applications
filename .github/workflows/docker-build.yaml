@@ -9,7 +9,7 @@ on:
       - main  # Execute o workflow em pull requests para a branch 'main'
 
 jobs:
-  docker-image-build:
+  docker-images-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,9 +31,9 @@ jobs:
         id: vars
         run: echo "COMMIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-  push-images:
+  docker-images-push:
     runs-on: ubuntu-latest
-    needs: docker-image-build  # Espera o job anterior terminar
+    needs: docker-images-build  # Espera o job anterior terminar
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -43,14 +43,10 @@ jobs:
 
       - name: Push Frontend Image
         run: |
-          # Push da imagem frontend com tag SHA
           docker push marciosbicigo/tcc-frontend:${{ env.COMMIT_SHA }}
-          # Push da imagem frontend com tag latest
           docker push marciosbicigo/tcc-frontend:latest
 
       - name: Push Backend API Image
         run: |
-          # Push da imagem backend com tag SHA
           docker push marciosbicigo/tcc-backend-api:${{ env.COMMIT_SHA }}
-          # Push da imagem backend com tag latest
           docker push marciosbicigo/tcc-backend-api:latest
