@@ -1,10 +1,12 @@
 name: CI - Build and Push Docker Images
 
 on:
-  workflow_run:
-    workflows: ["Backend CI", "Frontend CI"]
-    types:
-      - completed
+  push:
+    branches:
+      - main  # Execute o workflow em pushes na branch 'main'
+  pull_request:
+    branches:
+      - main  # Execute o workflow em pull requests para a branch 'main'
 
 jobs:
   docker:
