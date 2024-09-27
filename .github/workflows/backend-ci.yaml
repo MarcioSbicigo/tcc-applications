@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test:
+  test-backend-api:
     runs-on: ubuntu-latest
 
     services:
@@ -18,12 +18,8 @@ jobs:
         image: mongo:4.4
         ports:
           - 27017:27017
-        options: >-
-          --health-cmd "mongo --eval 'db.adminCommand('ping')'" 
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
+        options: --health-cmd "mongo --eval 'db.runCommand(\"ping\").ok'" --health-interval 10s --health-timeout 5s --health-retries 5
+      
       # Serviço do Redis
       redis:
         image: redis:latest
