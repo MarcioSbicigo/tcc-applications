@@ -124,7 +124,7 @@ jobs:
 
       - name: Build and push backend-api image   # Build backend
         run: |
-          docker build -t marciosbicigo/tcc-backend-api:${{ env.COMMIT_SHA }} -f ./backend/Dockerfile ./backend
+          docker build -t marciosbicigo/tcc-backend-api:${{ env.COMMIT_SHA }} -f ./backend-api/Dockerfile ./backend-api
           docker push marciosbicigo/tcc-backend-api:${{ env.COMMIT_SHA }}
           docker tag marciosbicigo/tcc-backend-api:${{ env.COMMIT_SHA }} marciosbicigo/tcc-backend-api:latest
           docker push marciosbicigo/tcc-backend-api:latest
