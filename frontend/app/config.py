@@ -15,20 +15,3 @@ class Settings:
             raise ValueError("Missing environment variable: API_URI")
         if not self.SECRET_KEY:
             raise ValueError("Missing environment variable: SECRET_KEY")
-    
-# class Config:
-# class Config:
-#     # Environment Variables
-#     REDIS_URI = environ.get("REDIS_URI")
-    
-#     def __init__(self):
-#         if not self.REDIS_URI:
-#             raise ValueError("Missing environment variable: REDIS_URI")
-#         if not self.SECRET_KEY:
-#             raise ValueError("Missing environment variable: SECRET_KEY")
-    
-#     # Flask-Session
-#     SESSION_TYPE = 'redis'
-#     SESSION_PERMANENT = False
-#     SESSION_USE_SIGNER = True 
-#     SESSION_REDIS = redis.from_url(REDIS_URI)

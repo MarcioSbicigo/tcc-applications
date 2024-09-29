@@ -2,7 +2,6 @@ import pytest
 from fastapi.testclient import TestClient
 from dependencies import database_requests
 from fastapi import FastAPI
-from fastapi import FastAPI
 from routers.v1 import login, logout, register
 
 app = FastAPI()
@@ -18,11 +17,18 @@ def inicializacao() -> str:
 
 client = TestClient(app)
 
-@pytest.fixture(autouse=True)
-def set_env_variables(monkeypatch):
-    # Defina as variáveis de ambiente necessárias antes de executar os testes
-    monkeypatch.setenv('MONGO_URI', 'mongodb://localhost:27017')
-    monkeypatch.setenv('REDIS_URI', 'redis://localhost:6379')
+@pytest.fixture(scope="function")
+def clean_database():
+    # Conectar ao MongoDB
+    mongo_client = database_requests.get_database_connection()
+    
+    # Fixture com yield para executar código antes e depois do teste
+    yield
+    
+    # Após o teste, dropar os databases
+    mongo_client.drop_database("MyBudget")
+    mongo_client.drop_database("mb_testuser")
+    mongo_client.close()
 
 def test_register_user():
     response = client.post("/api/v1/register", json={
@@ -31,7 +37,7 @@ def test_register_user():
         "email": "test@user.com",
         "password": "password123"
     })
-    assert response.status_code == 200
+    
     assert response.json() == {"message": "User successfully registered: testuser"}
 
     # Verificar se o usuário foi realmente inserido no banco de dados

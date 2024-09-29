@@ -2,12 +2,10 @@ import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
-# from flask import session
 from app.dash_app import *
 from app.components.user import home
 from app.components.login import login, register
 import jwt
-# from app.components.api.my_budget_api import SessionStatus
 
 # =========  Layout  =========== #
 app.layout = html.Div(children=[
@@ -70,11 +68,6 @@ def render_page_content(pathname: str, login_state, register_state):
     
     if token:
         user_info = jwt.decode(token, flask_server.config['SECRET_KEY'], algorithms=['HS256'])
-    
-    # try:
-    #     user_info = session.get(session_id)
-    # except Exception as error:
-    #     print(f'Erro ao buscar sessão: {error}')
     
     app_endpoints = ['/home', '/dashboard', '/extratos-receitas', '/extratos-despesas']
         
