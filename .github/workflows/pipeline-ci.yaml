@@ -8,7 +8,7 @@ on: # Ao realizar um push ou pull request na branch main
     branches:
       - main  # Ou a branch desejada
 
-# Realiza os seguintes passos
+# Executa os seguintes jobs
 
 jobs:
   test-backend-api:
@@ -59,7 +59,7 @@ jobs:
 
       - name: Run backend tests
         run: |
-          cd backend/app/
+          cd backend-api/app/
           pytest
 
   test-frontend:
