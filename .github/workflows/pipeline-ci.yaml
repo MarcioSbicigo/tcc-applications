@@ -59,7 +59,7 @@ jobs:
 
       - name: Run backend tests
         run: |
-          cd backend/app/tests
+          cd backend/app/
           pytest
 
   test-frontend:
@@ -91,7 +91,7 @@ jobs:
           cd frontend/app/
           pytest
 
-  build-push:
+  build-push-docker-image:
     runs-on: ubuntu-latest
     needs: test-frontend  # Este job depende do anterior
 
